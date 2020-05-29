@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -22,14 +21,20 @@ var writerCmd = &cobra.Command{
 }
 
 func runParser(args []string) {
-
+	out, _ := siso.ReadXmlFile(SisoFile)
 	for _, v := range args {
-		fmt.Println(v)
+		writer, _ := siso.AvailableWriters.GetWriter(v)
+		for _, enum := range out.Enums {
+			writer.WriteEnum(&enum)
+		}
+		// writer.WriteCet(&out.Entities)
+		for _, cet := range out.Entities {
+			writer.WriteCet(&cet)
+		}
 	}
 	if SisoFile == "" {
 		log.Printf("No File Specified")
 		return
 	}
-	out, _ := siso.ReadXmlFile(SisoFile)
-	fmt.Println(out)
+	// fmt.Println(out)
 }

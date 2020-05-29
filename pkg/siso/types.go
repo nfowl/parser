@@ -1,8 +1,32 @@
 package siso
 
+// var AvailableWriters Writers
+
+type Writers struct {
+	writers map[string]Writer
+}
+
+func (w *Writers) addWriter(name string, writer Writer) error {
+	w.writers[name] = writer
+	return nil
+}
+
+func (w *Writers) GetWriter(name string) (Writer, error) {
+	r := w.writers[name]
+	return r, nil
+}
+
+var AvailableWriters = &Writers{
+	writers: make(map[string]Writer),
+}
+
+type Writer interface {
+	WriteCet(*Cet) error
+	WriteEnum(*DisEnum) error
+}
 type SISOFile struct {
 	Enums    []DisEnum `xml:"enum"`
-	Entities Cet       `xml:"cet"`
+	Entities []Cet     `xml:"cet"`
 }
 
 type DisEnum struct {
@@ -18,7 +42,7 @@ type EnumValues struct {
 
 type Cet struct {
 	Name     string       `xml:"name,attr"`
-	Entities []EntityType `xml:"entity`
+	Entities []EntityType `xml:"entity"`
 }
 
 type Category struct {
