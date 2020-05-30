@@ -1,3 +1,5 @@
 #GO Binary
 siso-parser
-cet.txt
+
+#Output files
+*.sql
