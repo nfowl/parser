@@ -5,7 +5,7 @@ import (
 )
 
 func init() {
-	AvailableWriters.addWriter("ts", &TSWriter{})
+	AvailableWriters.AddWriter("ts", &TSWriter{})
 }
 
 type TSWriter struct {

@@ -6,7 +6,7 @@ type Writers struct {
 	writers map[string]Writer
 }
 
-func (w *Writers) addWriter(name string, writer Writer) error {
+func (w *Writers) AddWriter(name string, writer Writer) error {
 	w.writers[name] = writer
 	return nil
 }
@@ -20,19 +20,43 @@ var AvailableWriters = &Writers{
 	writers: make(map[string]Writer),
 }
 
+var InterestingEnums = map[string]bool{
+	"DIS-PDU Type":                   true,
+	"Force ID":                       true,
+	"Entity Kind":                    true,
+	"Platform Domain":                true,
+	"Platform-Land Category":         true,
+	"Platform-Air Category":          true,
+	"Platform-Surface Category":      true,
+	"Platform-Subsurface Category":   true,
+	"Platform-Space Category":        true,
+	"Munition Domain":                true,
+	"Munition Category":              true,
+	"Environmental Subcategory":      true,
+	"Radio Category":                 true,
+	"Radio Subcategory":              true,
+	"Expendable-Air Category":        true,
+	"Expendable-Surface Category":    true,
+	"Expendable-Subsurface Category": true,
+	"Sensor/Emitter Category":        true,
+	"Country":                        true,
+}
+
 type Writer interface {
 	WriteCet(*Cet) error
 	WriteEnum(*DisEnum) error
 }
+
 type SISOFile struct {
 	Enums    []DisEnum `xml:"enum"`
 	Entities []Cet     `xml:"cet"`
 }
 
 type DisEnum struct {
-	Name   string       `xml:"name,attr"`
-	UID    int          `xml:"uid,attr"`
-	Values []EnumValues `xml:"enumrow"`
+	Name          string       `xml:"name,attr"`
+	UID           int          `xml:"uid,attr"`
+	Values        []EnumValues `xml:"enumrow"`
+	Applicability string       `xml:"applicability,attr"`
 }
 
 type EnumValues struct {

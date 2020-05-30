@@ -27,7 +27,6 @@ func runParser(args []string) {
 		for _, enum := range out.Enums {
 			writer.WriteEnum(&enum)
 		}
-		// writer.WriteCet(&out.Entities)
 		for _, cet := range out.Entities {
 			writer.WriteCet(&cet)
 		}
@@ -36,5 +35,4 @@ func runParser(args []string) {
 		log.Printf("No File Specified")
 		return
 	}
-	// fmt.Println(out)
 }
